@@ -1,0 +1,21 @@
+.main-body{
+    display: flex;
+    justify-content: center;
+    background-color: #e6e7eb;
+}
+
+.main-content{
+    margin-top: 15px;
+    width: 85%;
+    display: flex;
+    gap: 15px;
+}
+
+.product-detail{
+    width: 59%;
+    background-color: red;
+}
+
+.product-list{
+
+}
