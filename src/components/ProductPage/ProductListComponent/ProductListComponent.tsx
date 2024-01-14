@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./ProductListStyle.css";
+import * as S from './ProductList.styled';
+
 
 interface IProductData {
   productId: string;
@@ -25,30 +27,29 @@ export default function ProductList() {
   console.log(productData);
 
   return (
-    <div className="product-list">
+    <S.ProductList>
       {productData.map((value, index) => {
         return (
-          <div className="product-item">
-            <img
+          <S.ProductItem>
+            <S.ProductItemImg
               src="https://avatars.githubusercontent.com/u/95759256?v=4"
               alt=""
-              className="product-item-img"
             />
-            <div className="product-item-right">
+            <S.ProductItemRight className="product-item-right">
               <div>
                 <b>{value.productName}</b>
                 <p>{value.description}</p>
               </div>
-              <div className="product-item-price-detail">
+              <S.ProductItemPriceDetail>
                 <h4 style={{margin:0}}>${value.price}</h4>
-                <a href="">
+                <S.ProductItemPriceDetailATag href="">
                   Details
-                </a>
-              </div>
-            </div>
-          </div>
+                </S.ProductItemPriceDetailATag>
+              </S.ProductItemPriceDetail>
+            </S.ProductItemRight>
+          </S.ProductItem>
         );
       })}
-    </div>
+    </S.ProductList>
   );
 }
