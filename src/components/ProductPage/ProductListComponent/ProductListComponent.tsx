@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import "./ProductListStyle.css";
 import * as S from './ProductList.styled';
 
-
 interface IProductData {
   productId: string;
   productName: string;
@@ -12,9 +11,14 @@ interface IProductData {
   price: number;
 }
 
-export default function ProductList() {
+interface ProductListProps {
+  onSelectProduct: (product: IProductData) => void;
+}
+
+const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
   const productUrl = "http://localhost:4000/api/products";
   const [productData, setProductData] = useState<Array<IProductData>>([]);
+
 
   const fetchInfo = () => {
     return axios.get(productUrl).then((res) => setProductData(res.data));
@@ -24,7 +28,6 @@ export default function ProductList() {
     fetchInfo();
   }, []);
 
-  console.log(productData);
 
   return (
     <S.ProductList>
@@ -32,7 +35,7 @@ export default function ProductList() {
         return (
           <S.ProductItem>
             <S.ProductItemImg
-              src="https://avatars.githubusercontent.com/u/95759256?v=4"
+              src="https://i.pinimg.com/564x/c8/1e/69/c81e6970461b22d69b541d429e331f41.jpg"
               alt=""
             />
             <S.ProductItemRight className="product-item-right">
@@ -42,9 +45,7 @@ export default function ProductList() {
               </div>
               <S.ProductItemPriceDetail>
                 <h4 style={{margin:0}}>${value.price}</h4>
-                <S.ProductItemPriceDetailATag href="">
-                  Details
-                </S.ProductItemPriceDetailATag>
+                <button onClick={() => onSelectProduct(value)}>Details</button>
               </S.ProductItemPriceDetail>
             </S.ProductItemRight>
           </S.ProductItem>
@@ -53,3 +54,5 @@ export default function ProductList() {
     </S.ProductList>
   );
 }
+
+export default ProductList;
