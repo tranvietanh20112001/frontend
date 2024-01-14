@@ -15,5 +15,4 @@ export const MainContent = styled.div`
 
 export const ProductDetail = styled.div`
   width: 59%;
-  background-color: red;
 `;
