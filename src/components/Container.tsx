@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as S from "./Container.styled";
-import axios from "axios";
 import ProductList from "./ProductPage/ProductListComponent/ProductListComponent";
 import ProductDetail from "./ProductPage/ProductDetailComponent/ProductDetailComponent";
 interface Product {

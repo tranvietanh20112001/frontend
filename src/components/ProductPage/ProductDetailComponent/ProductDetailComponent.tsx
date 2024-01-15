@@ -62,13 +62,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
           <button onClick={increment}>+</button>
         </QuantityButton>
 
-                <PriceAndAdd>
-                    <h5>Price: ${product.price}</h5>
-                    <button>Add to cart</button>
-                </PriceAndAdd>
-            </Action>
-        </ProductDetailContainer>
-    );
-}
+        <PriceAndAdd>
+          <h5>Total Price: ${totalPrice.toFixed(2)}</h5>
+          <button
+            onClick={() => dispatch(addToCart({ product, quantity: count }))}
+          >
+            <i className="bi bi-cart"></i> Add to cart
+          </button>
+        </PriceAndAdd>
+      </Action>
+    </ProductDetailContainer>
+  );
+};
 
 export default ProductDetail;

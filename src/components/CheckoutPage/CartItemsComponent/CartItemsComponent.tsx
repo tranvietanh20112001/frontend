@@ -22,7 +22,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import "./CartItemStyle.css";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 
 const CartItemsComponent = () => {
   const navigate = useNavigate();
