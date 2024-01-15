@@ -22,6 +22,7 @@ export const Action = styled.div`
     display: flex;
     margin:36px 0;
     justify-content: space-between;
+    align-items: center;
     h4{
         margin:0 48px;
 
@@ -30,8 +31,9 @@ export const Action = styled.div`
 
 export const PriceAndAdd = styled.div`
     width:50%;
-    display:flex;
+    display: flex;
     justify-content:flex-end;
+    align-items: center;
     button{
         border:none;
         border-radius:8px;
@@ -43,6 +45,11 @@ export const PriceAndAdd = styled.div`
     i{
         margin-right:12px;
     }
+    p{
+        font-weight:bold;
+        margin:0;
+        margin-right: 12px;
+    }
 `
 
 export const QuantityButton = styled.div`
@@ -52,12 +59,14 @@ export const QuantityButton = styled.div`
     display:flex;
     justify-content: space-between;
     align-items:center;
+    
     button{
         width:36px;
         height:36px;
         border:none;
         color: orange;
         background-color:gray;
+        border-radius:8px;
     }
     span{
         color: white;

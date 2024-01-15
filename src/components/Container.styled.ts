@@ -19,6 +19,6 @@ export const MainContent = styled.div`
 export const ProductDetail = styled.div`
   width: 59%;
   @media (max-width: 768px) {
-    widtth:100%;
+    width:100%;
   }
 `;

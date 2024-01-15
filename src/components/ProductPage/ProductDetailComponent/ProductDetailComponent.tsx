@@ -40,7 +40,7 @@ const ProductDetail : React.FC<ProductDetailProps> = ({ product }) => {
                 </QuantityButton>
 
                 <PriceAndAdd>
-                    <h5>Price: ${product.price}</h5>
+                    <p>Price: ${product.price}</p>
                     <button>Add to cart</button>
                 </PriceAndAdd>
             </Action>
