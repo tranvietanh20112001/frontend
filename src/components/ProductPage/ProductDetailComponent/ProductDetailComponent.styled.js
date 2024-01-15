@@ -12,6 +12,9 @@ export const ProductDetailContainer = styled.div`
         margin-top:48px;
     }
     border-radius: 8px;
+    @media (max-width: 768px) {
+        widtth:100%;
+      }
 `
 
 export const Action = styled.div`
