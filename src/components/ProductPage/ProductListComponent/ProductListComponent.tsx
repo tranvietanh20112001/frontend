@@ -35,7 +35,7 @@ const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
         return (
           <S.ProductItem>
             <S.ProductItemImg
-              src="https://i.pinimg.com/564x/c8/1e/69/c81e6970461b22d69b541d429e331f41.jpg"
+              src={value.imageUrl}
               alt=""
             />
             <S.ProductItemRight className="product-item-right">

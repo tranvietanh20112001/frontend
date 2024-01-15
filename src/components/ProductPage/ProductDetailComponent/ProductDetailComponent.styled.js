@@ -29,12 +29,14 @@ export const PriceAndAdd = styled.div`
     width:50%;
     display:flex;
     justify-content:flex-end;
+   
+
     button{
         border:none;
         border-radius:8px;
         background-color: blue;
         color:white;
-        width: 240px;
+        width: 180px;
         height: 36px;
     }
     i{
