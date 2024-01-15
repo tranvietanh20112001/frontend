@@ -48,4 +48,6 @@ const ProductDetail : React.FC<ProductDetailProps> = ({ product }) => {
     );
 }
 
+// VCL
+
 export default ProductDetail;
