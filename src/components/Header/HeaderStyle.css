@@ -1,0 +1,16 @@
+@media(max-width: 768px){
+    #drop-down-menu{
+        display: block !important;
+    }
+    #navbar-left-menu{
+        display: none !important;
+    }
+}
+
+#shopping-cart-btn{
+    color: #467edc;
+}
+
+#drop-down-menu{
+    display: none;
+}
