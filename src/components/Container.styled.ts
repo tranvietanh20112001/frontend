@@ -11,8 +11,14 @@ export const MainContent = styled.div`
   width: 85%;
   display: flex;
   gap: 15px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const ProductDetail = styled.div`
   width: 59%;
+  @media (max-width: 768px) {
+    width:100%;
+  }
 `;
