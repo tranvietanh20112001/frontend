@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../../slices/cart";
 import { QuantityButton } from "../../ProductPage/ProductDetailComponent/ProductDetailComponent.styled";
 
 const CartItem = ({ cartItem, decrement, increment }) => {
   const dispatch = useDispatch();
-
-  const [count, setCount] = useState(() => {
-    const storedCount = localStorage.getItem(`cartItem_${cartItem.product.productId}`);
-    return storedCount ? parseInt(storedCount, 10) : cartItem.quantity;
-  });
-
-
-  useEffect(() => {
-    localStorage.setItem(`cartItem_${cartItem.product.productId}`, count.toString());
-  }, [cartItem.product.productId, count]);
+  const [count, setCount] = useState(cartItem.quantity);
 
   const handleDecrement = () => {
     if (count > 1) {
       setCount(count - 1);
       decrement(cartItem.product.id);
     } else {
+      // Display confirmation dialog
       const confirmed = window.confirm("This product will be removed from your cart. Are you sure?");
       if (confirmed) {
         dispatch(removeFromCart(cartItem.product.productId));
@@ -37,6 +29,7 @@ const CartItem = ({ cartItem, decrement, increment }) => {
     dispatch(removeFromCart(cartItem.product.productId));
   };
 
+  // Calculate total price
   const totalPrice = (count * cartItem.product.price).toFixed(2);
 
   return (
@@ -52,15 +45,10 @@ const CartItem = ({ cartItem, decrement, increment }) => {
         <p className="cart-item-description">{cartItem.product.description}</p>
         <div className="cart-item-bottom">
           <QuantityButton>
-            <button onClick={handleDecrement} disabled={count === 1}>
+            <button onClick={handleDecrement} disabled={cartItem.quantity === 1}>
               -
             </button>
-            <input
-              type="number"
-              value={count}
-              readOnly
-              style={{ width: '30px' }}
-            />
+            <input type="number" value={count} readOnly style={{ width: '30px' }} />
             <button onClick={handleIncrement}>+</button>
           </QuantityButton>
 
