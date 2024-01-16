@@ -4,6 +4,7 @@ export const Container = styled.div`
   font-family: Arial, sans-serif;
   padding: 20px;
   background-color: #e5e7eb;
+  min-height: 100vh;
 `;
 
 export const Header = styled.div`
