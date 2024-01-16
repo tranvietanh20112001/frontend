@@ -22,6 +22,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import "./CartItemStyle.css";
+
 import CartItem from "./cartItem";
 
 import styled from 'styled-components';
@@ -35,6 +36,7 @@ const StyledCheckoutButton = styled.button`
   border-radius: 5px;
   cursor: not-allowed;
 `;
+
 
 const CartItemsComponent = () => {
   const navigate = useNavigate();
