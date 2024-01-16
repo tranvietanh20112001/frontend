@@ -1,4 +1,4 @@
-
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { QuantityButton } from "../../ProductPage/ProductDetailComponent/ProductDetailComponent.styled";
 import {
@@ -13,50 +13,87 @@ import {
   OrderTotal,
   Paragraph,
   ButtonContainer,
-  CheckoutButton,
   ContinueShoppingButton,
   ContainerCon,
   ParagraphLeft,
   ParagraphRight,
+  
 } from "./CartItemsStyles";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import "./CartItemStyle.css";
-import { useState} from "react";
+
+import CartItem from "./cartItem";
+
+import styled from 'styled-components';
+
+const StyledCheckoutButton = styled.button`
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: not-allowed;
+`;
+
 
 const CartItemsComponent = () => {
   const navigate = useNavigate();
-
   const { cart } = useSelector((state: RootState) => state.cart);
 
-  console.log(cart);
 
   const handleContinueShopping = () => {
     navigate("/products");
   };
 
-  const [count, setCount] = useState(1);
-//   const [totalPrice, setTotalPrice] = useState(cartItem.product.price);
+  const calculateSubtotal = () => {
+    let subtotal = 0;
+    cart.forEach((cartItem) => {
+      subtotal += cartItem.quantity * cartItem.product.price;
+    });
+    return subtotal.toFixed(2);
+  };
 
-  const decrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
+  const calculateShippingCost = () => {
+    // Set a default shipping cost
+    const defaultShippingCost = 10;
+
+    // If there are items in the cart, set the shipping cost to the default value
+    if (cart.length > 0) {
+      return defaultShippingCost;
     }
+
+    // If the cart is empty, shipping cost is $0
+    return 0;
   };
 
-  const increment = () => {
-    setCount(count + 1);
+  const calculateTotal = () => {
+    const subtotal = parseFloat(calculateSubtotal());
+    const shippingCost = calculateShippingCost();
+
+    return (subtotal + shippingCost).toFixed(2);
   };
 
-//   useEffect(() => {
-//     setCount(1);
-//     setTotalPrice(cartItem.product.price);
-//   }, [cartItem.product]);
+  const CheckoutButton = () => {
+    const total = parseFloat(calculateTotal());
 
-//   useEffect(() => {
+    const handleCheckout = () => {
+      const userConfirmation = window.confirm("Do you want to purchase?");
+      if (userConfirmation) {
+        alert("Thank you for Purchase!!!");
+      }
+    };
 
-//     setTotalPrice(product.price * count);
-//   }, [count, product]);
+    return (
+      <StyledCheckoutButton
+        disabled={total === 0}
+        onClick={handleCheckout}
+      >
+        Checkout
+      </StyledCheckoutButton>
+    );
+  };
 
   return (
     <Container>
@@ -65,43 +102,19 @@ const CartItemsComponent = () => {
 
         <SEContainer>
           <LeftContent>
-            {cart.map((cartItem) => {
-              return (
-                <div className="cart-items">
-                  <img
-                    className="cart-item-img"
-                    src={cartItem.product.imageUrl}
-                    alt="qq"
-                  />
-                  <div>
-                    <div className="cart-item-header">
-                      <b className="cart-item-name">
-                        {cartItem.product.productName}
-                      </b>
-                      <p className="cart-item-delete-btn">
-                        <i className="bi bi-trash"></i>
-                      </p>
-                    </div>
-                    <p className="cart-item-description">
-                      {cartItem.product.description}
-                    </p>
-                    <div className="cart-item-bottom">
-                      <QuantityButton>
-                        <button onClick={decrement} disabled={count === 1}>
-                          -
-                        </button>
-                        <span>{count}</span>
-                        <button onClick={increment}>+</button>
-                      </QuantityButton>
-                      <p>${cartItem.product.price}</p>
-                    </div>
-                  </div>
-
-                  {/* <p>{cartItem.quantity}</p> */}
-                </div>
-              );
-            })}
-            <Paragraph>You have no products in cart</Paragraph>
+            {cart.map((cartItem) => (
+              <CartItem
+                key={cartItem.product.productId}
+                cartItem={cartItem}
+                decrement={() => {
+                  /* handle decrement logic here */
+                }}
+                increment={() => {
+                  /* handle increment logic here */
+                }}
+              />
+            ))}
+            {cart.length === 0 && <Paragraph>You have no products in the cart</Paragraph>}
           </LeftContent>
 
           <RightContent>
@@ -109,19 +122,20 @@ const CartItemsComponent = () => {
               <OrderTitle>Order Info</OrderTitle>
               <OrderSubtitle>
                 <ParagraphLeft>Subtotal: </ParagraphLeft>
-                <ParagraphRight>$0</ParagraphRight>
+                <ParagraphRight>${calculateSubtotal()}</ParagraphRight>
               </OrderSubtitle>
               <OrderSubtitle>
                 <ParagraphLeft>Shipping Cost:</ParagraphLeft>
-                <ParagraphRight> $0</ParagraphRight>
+                <ParagraphRight> ${calculateShippingCost()}</ParagraphRight>
               </OrderSubtitle>
               <OrderTotal>
-                Total: <p>$0.00</p>
+                Total: <p>${calculateTotal()}</p>
               </OrderTotal>
             </OrderInfoContainer>
 
             <ButtonContainer>
-              <CheckoutButton>Checkout</CheckoutButton>
+              <CheckoutButton />
+
               <ContinueShoppingButton onClick={handleContinueShopping}>
                 Continue Shopping
               </ContinueShoppingButton>
