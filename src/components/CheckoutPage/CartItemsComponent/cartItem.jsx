@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { removeFromCart } from "../../../slices/cart";
+import { changeProductQuantity, removeFromCart } from "../../../slices/cart";
 import { QuantityButton } from "../../ProductPage/ProductDetailComponent/ProductDetailComponent.styled";
+import {
+  CartItemsContainer,
+  CartItemImage,
+  CartItemName,
+  CartItemDescription,
+  CartItemHeader,
+  CartItemDeleteButton,
+  CartItemBottom,
+  TotalPrice,
+  Input,
+} from './CartItemStyle';
 
-const CartItem = ({ cartItem, decrement, increment }) => {
+const CartItem = ({ cartItem, decrement, increment, id }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(cartItem.quantity);
 
+  useEffect(() => {
+    dispatch(changeProductQuantity({ ...cartItem, quantity: count }));
+  }, [count, cartItem, dispatch]);
+  
   const handleDecrement = () => {
     if (count > 1) {
       setCount(count - 1);
@@ -33,29 +48,31 @@ const CartItem = ({ cartItem, decrement, increment }) => {
   const totalPrice = (count * cartItem.product.price).toFixed(2);
 
   return (
-    <div className="cart-items">
-      <img className="cart-item-img" src={cartItem.product.imageUrl} alt="qq" />
-      <div>
-        <div className="cart-item-header">
-          <b className="cart-item-name">{cartItem.product.productName}</b>
-          <p className="cart-item-delete-btn" onClick={handleRemove}>
-            <i className="bi bi-trash"></i>
-          </p>
-        </div>
-        <p className="cart-item-description">{cartItem.product.description}</p>
-        <div className="cart-item-bottom">
-          <QuantityButton>
-            <button onClick={handleDecrement}>
+    <CartItemsContainer>
+    <CartItemImage src={cartItem.product.imageUrl} alt="qq" />
+    <div>
+      <CartItemHeader>
+        <CartItemName>{cartItem.product.productName}</CartItemName>
+        <CartItemDeleteButton onClick={handleRemove}>
+          <i className="bi bi-trash"></i>
+        </CartItemDeleteButton>
+      </CartItemHeader>
+      <CartItemDescription>{cartItem.product.description}</CartItemDescription>
+      <CartItemBottom>
+        {/* Quantity buttons */}
+        <QuantityButton>
+          <button onClick={handleDecrement}>
               -
             </button>
-            <input type="number" value={count} readOnly style={{ width: '30px' }} />
-            <button onClick={handleIncrement}>+</button>
-          </QuantityButton>
+            <Input type="number" value={count} readOnly />
+          <button onClick={handleIncrement}>+</button>
+        </QuantityButton>
 
-          <p>${totalPrice}</p>
-        </div>
-      </div>
+        {/* Total price */}
+        <TotalPrice>${totalPrice}</TotalPrice>
+      </CartItemBottom>
     </div>
+  </CartItemsContainer>
   );
 };
 

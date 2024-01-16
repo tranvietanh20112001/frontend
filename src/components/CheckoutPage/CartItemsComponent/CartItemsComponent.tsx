@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { QuantityButton } from "../../ProductPage/ProductDetailComponent/ProductDetailComponent.styled";
 import {
   Container,
   Header,
@@ -17,7 +16,6 @@ import {
   ContainerCon,
   ParagraphLeft,
   ParagraphRight,
-  
 } from "./CartItemsStyles";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -25,7 +23,7 @@ import "./CartItemStyle.css";
 
 import CartItem from "./cartItem";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledCheckoutButton = styled.button`
   background-color: #3b82f6;
@@ -37,46 +35,44 @@ const StyledCheckoutButton = styled.button`
   cursor: not-allowed;
 `;
 
-
-const CartItemsComponent = () => {
+const CartItemsComponent: React.FC = () => {
   const navigate = useNavigate();
-  const { cart } = useSelector((state: RootState) => state.cart);
 
+  const cart = useSelector((state: RootState) => state.cart.cart);
 
-  const handleContinueShopping = () => {
-    navigate("/products");
-  };
-
+  const [st, setSt] = useState(0);
   const calculateSubtotal = () => {
     let subtotal = 0;
     cart.forEach((cartItem) => {
       subtotal += cartItem.quantity * cartItem.product.price;
     });
-    return subtotal.toFixed(2);
+    console.log(subtotal);
+    setSt(Number(subtotal.toFixed(2)));
+  };
+  useEffect(() => {
+    calculateSubtotal();
+  }, [cart]);
+
+  const handleContinueShopping = () => {
+    navigate("/products");
   };
 
   const calculateShippingCost = () => {
-    // Set a default shipping cost
     const defaultShippingCost = 10;
-
-    // If there are items in the cart, set the shipping cost to the default value
     if (cart.length > 0) {
       return defaultShippingCost;
     }
-
-    // If the cart is empty, shipping cost is $0
     return 0;
   };
 
-  const calculateTotal = () => {
-    const subtotal = parseFloat(calculateSubtotal());
+  const calculateTotal = (st: number) => {
     const shippingCost = calculateShippingCost();
 
-    return (subtotal + shippingCost).toFixed(2);
+    return (st + shippingCost).toFixed(2);
   };
 
   const CheckoutButton = () => {
-    const total = parseFloat(calculateTotal());
+    const total = parseFloat(calculateTotal(st));
 
     const handleCheckout = () => {
       const userConfirmation = window.confirm("Do you want to purchase?");
@@ -86,10 +82,7 @@ const CartItemsComponent = () => {
     };
 
     return (
-      <StyledCheckoutButton
-        disabled={total === 0}
-        onClick={handleCheckout}
-      >
+      <StyledCheckoutButton disabled={total === 0} onClick={handleCheckout}>
         Checkout
       </StyledCheckoutButton>
     );
@@ -107,14 +100,16 @@ const CartItemsComponent = () => {
                 key={cartItem.product.productId}
                 cartItem={cartItem}
                 decrement={() => {
-                  /* handle decrement logic here */
                 }}
                 increment={() => {
-                  /* handle increment logic here */
+            
                 }}
+                id={cartItem.product.productId}
               />
             ))}
-            {cart.length === 0 && <Paragraph>You have no products in the cart</Paragraph>}
+            {cart.length === 0 && (
+              <Paragraph>You have no products in the cart</Paragraph>
+            )}
           </LeftContent>
 
           <RightContent>
@@ -122,14 +117,14 @@ const CartItemsComponent = () => {
               <OrderTitle>Order Info</OrderTitle>
               <OrderSubtitle>
                 <ParagraphLeft>Subtotal: </ParagraphLeft>
-                <ParagraphRight>${calculateSubtotal()}</ParagraphRight>
+                <ParagraphRight>${st}</ParagraphRight>
               </OrderSubtitle>
-              <OrderSubtitle>
+<OrderSubtitle>
                 <ParagraphLeft>Shipping Cost:</ParagraphLeft>
                 <ParagraphRight> ${calculateShippingCost()}</ParagraphRight>
               </OrderSubtitle>
               <OrderTotal>
-                Total: <p>${calculateTotal()}</p>
+                Total: <p>${calculateTotal(st)}</p>
               </OrderTotal>
             </OrderInfoContainer>
 
