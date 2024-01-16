@@ -35,6 +35,7 @@ const StyledCheckoutButton = styled.button`
   cursor: not-allowed;
 `;
 
+console.log('testing');
 const CartItemsComponent: React.FC = () => {
   const navigate = useNavigate();
 
