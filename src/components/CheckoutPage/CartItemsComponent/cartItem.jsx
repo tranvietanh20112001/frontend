@@ -45,7 +45,7 @@ const CartItem = ({ cartItem, decrement, increment }) => {
         <p className="cart-item-description">{cartItem.product.description}</p>
         <div className="cart-item-bottom">
           <QuantityButton>
-            <button onClick={handleDecrement} disabled={cartItem.quantity === 1}>
+            <button onClick={handleDecrement}>
               -
             </button>
             <input type="number" value={count} readOnly style={{ width: '30px' }} />

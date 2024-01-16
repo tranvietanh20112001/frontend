@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import './HeaderStyle.css'
+import "./HeaderStyle.css";
 
 const GreenCartIcon = styled.div`
   font-size: 30px;
@@ -13,7 +13,7 @@ const GreenCartIcon = styled.div`
   position: relative;
   display: inline-block;
 
-  span {
+  input {
     top: 5px;
     text-align: center;
     position: absolute;
@@ -24,6 +24,8 @@ const GreenCartIcon = styled.div`
     font-size: 10px;
     width: 15px;
     height: 15px;
+    outline: none;
+    border: none;
   }
 `;
 
@@ -37,33 +39,60 @@ const HeaderComponent: React.FC = () => {
   return (
     <Navbar bg="light" data-bs-theme="light" style={{ padding: "0" }}>
       <Container>
-      <Nav id="side-bar-menu">
+        <Nav id="side-bar-menu">
           <Button variant="primary" onClick={handleShow} id="navbar-menu-btn">
             <i className="fa-solid fa-bars"></i>
           </Button>
 
-          <Offcanvas id="side-bar-menu-container" show={show} onHide={handleClose}>
+          <Offcanvas
+            id="side-bar-menu-container"
+            show={show}
+            onHide={handleClose}
+          >
             <Offcanvas.Header closeButton>
               <h1>Menu</h1>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <NavLink to="/home"><h2>Home</h2></NavLink>
-              <NavLink to="/products"><h2>Products</h2></NavLink>
-              <NavLink to="/review"><h2>Review</h2></NavLink>
+              <NavLink to="/home">
+                <h2>Home</h2>
+              </NavLink>
+              <NavLink to="/products">
+                <h2>Products</h2>
+              </NavLink>
+              <NavLink to="/review">
+                <h2>Review</h2>
+              </NavLink>
             </Offcanvas.Body>
           </Offcanvas>
         </Nav>
         <Nav id="navbar-left">
-          <NavLink to="/home">Home</NavLink>
-          <NavLink to="/products">Products</NavLink>
-          <NavLink to="/review">Review</NavLink>
+          <NavLink
+            to="/home"
+            className={({ isActive }) =>
+              `text-decoration-none ${
+                isActive ? "text-black fw-bold" : "#467edc"
+              }`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink to="/products" className={({ isActive }) =>
+              `text-decoration-none ${
+                isActive ? "text-black fw-bold" : "#467edc"
+              }`
+            }>Products</NavLink>
+          <NavLink to="/review" className={({ isActive }) =>
+              `text-decoration-none ${
+                isActive ? "text-black fw-bold" : "#467edc"
+              }`
+            }>Review</NavLink>
         </Nav>
         <Navbar.Brand as={Link} to={"/home"}>
           <S.NavbarLogo>Beauty.bd</S.NavbarLogo>
         </Navbar.Brand>
         <NavLink to="/cart">
           <GreenCartIcon>
-            <span>{totalQuantity}</span>
+            <input readOnly={true} value={totalQuantity} />
             <i className="bi bi-cart"></i>
           </GreenCartIcon>
         </NavLink>

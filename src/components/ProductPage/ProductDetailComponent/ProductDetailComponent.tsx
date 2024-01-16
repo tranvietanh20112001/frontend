@@ -4,6 +4,7 @@ import {
   Action,
   PriceAndAdd,
   QuantityButton,
+  TotalPrice,
 } from "./ProductDetailComponent.styled";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store";
@@ -63,7 +64,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
         </QuantityButton>
 
         <PriceAndAdd>
-          <h5>Total Price: ${totalPrice.toFixed(2)}</h5>
+          <TotalPrice>Total Price: ${totalPrice.toFixed(2)}</TotalPrice>
           <button
             onClick={() => dispatch(addToCart({ product, quantity: count }))}
           >

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./ProductListStyle.css";
 import * as S from './ProductList.styled';
+import ProductItems from "./ProductItemsComponent/ProductItems";
 
 interface IProductData {
   productId: string;
@@ -19,7 +20,6 @@ const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
   const productUrl = "http://localhost:4000/api/products";
   const [productData, setProductData] = useState<Array<IProductData>>([]);
 
-
   const fetchInfo = () => {
     return axios.get(productUrl).then((res) => setProductData(res.data));
   };
@@ -33,22 +33,7 @@ const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
     <S.ProductList>
       {productData.map((value, index) => {
         return (
-          <S.ProductItem>
-            <S.ProductItemImg
-              src={value.imageUrl}
-              alt=""
-            />
-            <S.ProductItemRight className="product-item-right">
-              <div>
-                <b>{value.productName}</b>
-                <p>{value.description}</p>
-              </div>
-              <S.ProductItemPriceDetail>
-                <h4 style={{margin:0}}>${value.price}</h4>
-                <button onClick={() => onSelectProduct(value)}>Details</button>
-              </S.ProductItemPriceDetail>
-            </S.ProductItemRight>
-          </S.ProductItem>
+          <ProductItems product={value} index={index} onSelectProduct={onSelectProduct}/>
         );
       })}
     </S.ProductList>
