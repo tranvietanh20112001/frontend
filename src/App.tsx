@@ -6,6 +6,7 @@ import Container from "./components/Container";
 import CartItemsComponent from "./components/CheckoutPage/CartItemsComponent/CartItemsComponent";
 import { Provider } from "react-redux";
 import store from "./store";
+import ComingSoon from "./components/HomepageAndReviewComponent/ComingSoon";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Routes>
           <Route path="/cart" element={<CartItemsComponent />} />
           <Route path="/products" element={<Container />} />
+          <Route path="/home" element={<ComingSoon />} />
+          <Route path="/review" element={<ComingSoon />} />
         </Routes>
       </Router>
     </Provider>

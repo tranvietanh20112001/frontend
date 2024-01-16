@@ -1,8 +1,8 @@
 @media(max-width: 768px){
-    #drop-down-menu{
+    #side-bar-menu{
         display: block !important;
     }
-    #navbar-left-menu{
+    #navbar-left{
         display: none !important;
     }
 }
@@ -11,6 +11,32 @@
     color: #467edc;
 }
 
-#drop-down-menu{
+#navbar-left{
+    display: flex;
+    gap: 20px;
+}
+
+#navbar-left a{
+    text-decoration: none;
+}
+
+#side-bar-menu{
     display: none;
+}
+
+#side-bar-menu-container a{
+    text-decoration: none;
+}
+
+#side-bar-menu-container{
+    width: 300px;
+}
+
+#navbar-menu-btn{
+    background-color: white;
+    border: none;
+}
+
+#navbar-menu-btn i {
+    color: #467edc;
 }
