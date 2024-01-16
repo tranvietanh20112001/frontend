@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./ProductListStyle.css";
 import * as S from './ProductList.styled';
+import ProductItems from "./ProductItemsComponent/ProductItems";
 
 interface IProductData {
   productId: string;
@@ -18,7 +19,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
   const productUrl = "http://localhost:4000/api/products";
   const [productData, setProductData] = useState<Array<IProductData>>([]);
-
+  const [selectedProduct, setSelectedProduct] = useState<IProductData | null>(null);
 
   const fetchInfo = () => {
     return axios.get(productUrl).then((res) => setProductData(res.data));
@@ -28,27 +29,17 @@ const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
     fetchInfo();
   }, []);
 
+  useEffect(() => {
+    if (!selectedProduct && productData.length > 0) {
+      setSelectedProduct(productData[0]);
+    }
+  }, [selectedProduct, productData]);
 
   return (
     <S.ProductList>
       {productData.map((value, index) => {
         return (
-          <S.ProductItem>
-            <S.ProductItemImg
-              src="https://i.pinimg.com/564x/c8/1e/69/c81e6970461b22d69b541d429e331f41.jpg"
-              alt=""
-            />
-            <S.ProductItemRight className="product-item-right">
-              <div>
-                <b>{value.productName}</b>
-                <p>{value.description}</p>
-              </div>
-              <S.ProductItemPriceDetail>
-                <h4 style={{margin:0}}>${value.price}</h4>
-                <button onClick={() => onSelectProduct(value)}>Details</button>
-              </S.ProductItemPriceDetail>
-            </S.ProductItemRight>
-          </S.ProductItem>
+          <ProductItems product={value} index={index} onSelectProduct={onSelectProduct}/>
         );
       })}
     </S.ProductList>

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import * as S from "./Container.styled";
-import axios from "axios";
+import axios from 'axios';
 import ProductList from "./ProductPage/ProductListComponent/ProductListComponent";
 import ProductDetail from "./ProductPage/ProductDetailComponent/ProductDetailComponent";
 interface Product {
@@ -17,6 +17,31 @@ const Container: React.FC = () => {
   const handleSelectProduct = (product: Product) => {
     setSelectedProduct(product);
   };
+
+  const [productData, setProductData] = useState<Array<Product>>([]);
+  const productUrl = 'http://localhost:4000/api/products';
+
+  useEffect(() => {
+    const fetchProductData = async () => {
+      try {
+        const response = await axios.get(productUrl);
+        setProductData(response.data);
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
+    };
+
+    fetchProductData();
+  }, [productUrl]);
+
+  useEffect(() => {
+    if (!selectedProduct && productData.length > 0) {
+      setSelectedProduct(productData[0]);
+    }
+  }, [selectedProduct, productData]);
+
+
+
   
   return (
     <S.MainBody>
