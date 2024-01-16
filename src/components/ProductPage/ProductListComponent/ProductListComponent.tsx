@@ -19,6 +19,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
   const productUrl = "http://localhost:4000/api/products";
   const [productData, setProductData] = useState<Array<IProductData>>([]);
+  const [selectedProduct, setSelectedProduct] = useState<IProductData | null>(null);
 
   const fetchInfo = () => {
     return axios.get(productUrl).then((res) => setProductData(res.data));
@@ -28,6 +29,11 @@ const ProductList: React.FC<ProductListProps> = ({ onSelectProduct }) => {
     fetchInfo();
   }, []);
 
+  useEffect(() => {
+    if (!selectedProduct && productData.length > 0) {
+      setSelectedProduct(productData[0]);
+    }
+  }, [selectedProduct, productData]);
 
   return (
     <S.ProductList>
